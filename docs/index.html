@@ -1,260 +1,221 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from "recharts";
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Motor Power Curve Compare</title>
+  <!-- Tailwind for quick styling (CDN, works on GitHub Pages) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React 18 UMD -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Recharts UMD -->
+  <script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
+  <!-- Babel for in-browser JSX transform (simple deploy; swap to a real build later for perf) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <div id="root"></div>
 
-// ---------------- Types ----------------
-export type Point = {
-  throttle: number; // percent
-  current: number; // amps (per motor)
-  thrust_kg: number; // lift per motor in kg
-  rpm?: number;
-};
+  <script type="text/babel">
+    const { useEffect, useMemo, useState } = React;
+    const { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } = Recharts;
 
-export type PropDataset = {
-  id: string;
-  name: string;
-  data: {
-    "6S"?: Point[];
-    "12S"?: Point[];
-  };
-};
+    // ---------------- Types (JSDoc only for hints) ----------------
+    /** @typedef {{ throttle:number, current:number, thrust_kg:number, rpm?:number }} Point */
 
-export type MotorSpec = {
-  id: string;
-  name: string;
-  props: PropDataset[];
-};
+    // ---------------- Helpers ----------------
+    function byId(arr, id){ return (arr||[]).find(a => a.id === id); }
 
-export type MotorDB = {
-  motors: MotorSpec[];
-};
-
-// ---------------- Helpers ----------------
-function byId<T extends { id: string }>(arr: T[], id?: string | null): T | undefined {
-  return arr.find(a => a.id === id);
-}
-
-function buildSeries(points?: Point[]): { x: number; y: number; throttle: number }[] {
-  if (!points) return [];
-  return points
-    .filter(p => Number.isFinite(p.current) && Number.isFinite(p.thrust_kg))
-    .map(p => ({ x: p.current, y: p.thrust_kg, throttle: p.throttle }))
-    .sort((a, b) => a.x - b.x);
-}
-
-// Estimate flight time given pack Wh, takeoff weight, and thrust/power curve
-function estimateFlightTime(points: Point[], takeoffWeightKg: number, voltage: number, capacityWh: number): { minutes: number; throttle?: number; note?: string } | null {
-  if (!points.length) return null;
-  const weightPerMotor = takeoffWeightKg / 4; // per motor thrust needed
-  const sorted = [...points].sort((a, b) => a.thrust_kg - b.thrust_kg);
-
-  let match: Point | null = null;
-  for (const p of sorted) {
-    if (p.thrust_kg >= weightPerMotor) {
-      match = p;
-      break;
+    function buildSeries(points){
+      if(!points) return [];
+      return points
+        .filter(p => Number.isFinite(p.current) && Number.isFinite(p.thrust_kg))
+        .map(p => ({ x:p.current, y:p.thrust_kg, throttle:p.throttle }))
+        .sort((a,b)=>a.x-b.x);
     }
-  }
 
-  if (!match) return null; // weight too high for dataset
+    function App(){
+      const [db, setDb] = useState(null);
+      const [loadErr, setLoadErr] = useState(null);
 
-  const totalCurrent = match.current * 4; // 4 motors
-  const powerW = voltage * totalCurrent;
-  const hours = capacityWh / powerW;
-  const minutes = hours * 60;
+      // selections for A and B
+      const [motorA, setMotorA] = useState();
+      const [propA, setPropA] = useState();
+      const [motorB, setMotorB] = useState();
+      const [propB, setPropB] = useState();
 
-  let note;
-  if (match === sorted[0] && match.thrust_kg > weightPerMotor) {
-    note = "*"; // longer than shown
-  }
+      // Voltage selector (6S or 12S). Default 12S
+      const [voltage, setVoltage] = useState("12S");
 
-  return { minutes, throttle: match.throttle, note };
-}
+      // Flight-time inputs
+      const motorCount = 4; // fixed to 4 per your use-case
+      const [takeoffKg, setTakeoffKg] = useState(10);
+      const [capacityAh, setCapacityAh] = useState(20);
+      const [usablePct, setUsablePct] = useState(80);
 
-// ---------------- Component ----------------
-export default function MotorCompareApp() {
-  const [db, setDb] = useState<MotorDB | null>(null);
-  const [loadErr, setLoadErr] = useState<string | null>(null);
+      // Load motors.json from the same folder as index.html
+      useEffect(()=>{
+        const url = './motors.json';
+        fetch(url, { cache: 'no-store' })
+          .then(r=>{ if(!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+          .then(json=> setDb(json))
+          .catch(err=> setLoadErr(String(err)));
+      },[]);
 
-  // selections for A and B
-  const [motorA, setMotorA] = useState<string | undefined>();
-  const [propA, setPropA] = useState<string | undefined>();
-  const [motorB, setMotorB] = useState<string | undefined>();
-  const [propB, setPropB] = useState<string | undefined>();
+      const specA = useMemo(()=> db ? byId(db.motors, motorA) : undefined, [db, motorA]);
+      const specB = useMemo(()=> db ? byId(db.motors, motorB) : undefined, [db, motorB]);
+      const propSpecA = useMemo(()=> specA ? byId(specA.props, propA) : undefined, [specA, propA]);
+      const propSpecB = useMemo(()=> specB ? byId(specB.props, propB) : undefined, [specB, propB]);
 
-  // Voltage selector (6S or 12S). Default 12S per your use-case
-  const [voltage, setVoltage] = useState<"6S" | "12S">("12S");
+      const seriesA = useMemo(()=> buildSeries(propSpecA?.data?.[voltage]), [propSpecA, voltage]);
+      const seriesB = useMemo(()=> buildSeries(propSpecB?.data?.[voltage]), [propSpecB, voltage]);
 
-  // Flight-time inputs
-  const [motorCount] = useState<number>(4); // fixed to 4 (per your note)
-  const [takeoffKg, setTakeoffKg] = useState<number>(10); // craft mass incl. battery/payload, kg
-  const [capacityAh, setCapacityAh] = useState<number>(20); // total pack capacity for the whole craft
-  const [usablePct, setUsablePct] = useState<number>(80); // percent usable (reserve at end)
+      // Build chart rows (concatenate independent x domains)
+      const dataA = seriesA.map(p=>({ x:p.x, A:p.y, tA:p.throttle }));
+      const dataB = seriesB.map(p=>({ x:p.x, B:p.y, tB:p.throttle }));
+      const merged = useMemo(()=>{
+        const rows = [...dataA, ...dataB];
+        rows.sort((a,b)=>(a.x??0)-(b.x??0));
+        return rows;
+      }, [dataA, dataB]);
 
-  // Motors.json lives at a relative path so the app works on GitHub Pages
-  useEffect(() => {
-    const url = (import.meta as any)?.env?.BASE_URL ? `${(import.meta as any).env.BASE_URL}motors.json` : "./motors.json";
-    fetch(url, { cache: "no-store" })
-      .then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((json: MotorDB) => setDb(json))
-      .catch(err => setLoadErr(String(err)));
-  }, []);
-
-  // Resolve selections
-  const specA = useMemo(() => (db ? byId(db.motors, motorA) : undefined), [db, motorA]);
-  const specB = useMemo(() => (db ? byId(db.motors, motorB) : undefined), [db, motorB]);
-  const propSpecA = useMemo(() => (specA ? byId(specA.props, propA) : undefined), [specA, propA]);
-  const propSpecB = useMemo(() => (specB ? byId(specB.props, propB) : undefined), [specB, propB]);
-
-  // Chart data
-  const seriesA = useMemo(() => buildSeries(propSpecA?.data[voltage]), [propSpecA, voltage]);
-  const seriesB = useMemo(() => buildSeries(propSpecB?.data[voltage]), [propSpecB, voltage]);
-
-  // Build rows for Recharts (independent X domains concatenated)
-  const dataA = seriesA.map(p => ({ x: p.x, A: p.y, tA: p.throttle }));
-  const dataB = seriesB.map(p => ({ x: p.x, B: p.y, tB: p.throttle }));
-  const merged = useMemo(() => {
-    const rows: any[] = [];
-    for (const r of dataA) rows.push(r);
-    for (const r of dataB) rows.push(r);
-    return rows.sort((a, b) => (a.x ?? 0) - (b.x ?? 0));
-  }, [dataA, dataB]);
-
-  // ---- Flight time estimator ----
-  function interpolateCurrentForLift(series: { x: number; y: number; throttle: number }[] | undefined, liftKgPerMotor: number) {
-    if (!series || !series.length) return { ok: false as const, reason: "no-data" };
-    // sort by y (lift)
-    const pts = [...series].sort((a, b) => a.y - b.y);
-    const min = pts[0];
-    const max = pts[pts.length - 1];
-    if (liftKgPerMotor < min.y) {
-      return { ok: true as const, currentA: min.x, throttle: min.throttle, noteLow: true };
-    }
-    if (liftKgPerMotor > max.y) {
-      return { ok: false as const, reason: "exceeds-max" };
-    }
-    // find segment
-    for (let i = 0; i < pts.length - 1; i++) {
-      const a = pts[i], b = pts[i + 1];
-      if (liftKgPerMotor >= a.y && liftKgPerMotor <= b.y) {
-        const t = (liftKgPerMotor - a.y) / (b.y - a.y || 1);
-        const current = a.x + t * (b.x - a.x);
-        const thr = a.throttle + t * (b.throttle - a.throttle);
-        return { ok: true as const, currentA: current, throttle: thr, noteLow: false };
+      // ---- Flight time estimator ----
+      function interpolateCurrentForLift(series, liftKgPerMotor){
+        if(!series || !series.length) return { ok:false, reason:'no-data' };
+        const pts = [...series].sort((a,b)=> a.y - b.y);
+        const min = pts[0], max = pts[pts.length-1];
+        if(liftKgPerMotor < min.y){
+          return { ok:true, currentA:min.x, throttle:min.throttle, noteLow:true };
+        }
+        if(liftKgPerMotor > max.y){
+          return { ok:false, reason:'exceeds-max' };
+        }
+        for(let i=0;i<pts.length-1;i++){
+          const a=pts[i], b=pts[i+1];
+          if(liftKgPerMotor >= a.y && liftKgPerMotor <= b.y){
+            const t = (liftKgPerMotor - a.y) / ((b.y - a.y) || 1);
+            const current = a.x + t*(b.x - a.x);
+            const thr = a.throttle + t*(b.throttle - a.throttle);
+            return { ok:true, currentA:current, throttle:thr, noteLow:false };
+          }
+        }
+        return { ok:false, reason:'segment-not-found' };
       }
-    }
-    return { ok: false as const, reason: "segment-not-found" };
-  }
 
-  const perMotorLiftNeeded = takeoffKg / motorCount; // kgf per motor for hover
-  const hoverA = useMemo(() => interpolateCurrentForLift(seriesA, perMotorLiftNeeded), [seriesA, perMotorLiftNeeded]);
-  const hoverB = useMemo(() => interpolateCurrentForLift(seriesB, perMotorLiftNeeded), [seriesB, perMotorLiftNeeded]);
+      const perMotorLiftNeeded = useMemo(()=> takeoffKg / motorCount, [takeoffKg]);
+      const hoverA = useMemo(()=> interpolateCurrentForLift(seriesA, perMotorLiftNeeded), [seriesA, perMotorLiftNeeded]);
+      const hoverB = useMemo(()=> interpolateCurrentForLift(seriesB, perMotorLiftNeeded), [seriesB, perMotorLiftNeeded]);
 
-  function flightTimeMinutes(hover: ReturnType<typeof interpolateCurrentForLift>) {
-    if (!hover.ok) return null;
-    const totalCurrent = hover.currentA * motorCount;
-    const usableAh = capacityAh * (usablePct / 100);
-    if (totalCurrent <= 0) return null;
-    return (usableAh / totalCurrent) * 60; // minutes
-  }
+      function flightTimeMinutes(hover){
+        if(!hover.ok) return null;
+        const totalCurrent = hover.currentA * motorCount;
+        const usableAh = capacityAh * (usablePct/100);
+        if(totalCurrent <= 0) return null;
+        return (usableAh / totalCurrent) * 60; // minutes
+      }
+      const timeA = flightTimeMinutes(hoverA);
+      const timeB = flightTimeMinutes(hoverB);
 
-  const timeA = flightTimeMinutes(hoverA);
-  const timeB = flightTimeMinutes(hoverB);
+      return (
+        <div className="min-h-screen">
+          <header className="p-6">
+            <h1 className="text-3xl font-bold">Motor Power Curve Compare</h1>
+            <p className="text-gray-600 mt-1">Compare two motors/props from a database file. X = Current (A), Y = Lift (kg). Hover to read values. Includes 4‑motor flight-time estimate.</p>
+          </header>
 
-  const canPlot = seriesA.length || seriesB.length;
+          <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 p-6">
+            {/* Controls */}
+            <section className="xl:col-span-1 space-y-6">
+              <div className="p-4 bg-white rounded-2xl shadow-sm">
+                <h2 className="text-xl font-semibold mb-3">Data Source</h2>
+                <p className="text-sm text-gray-600">Place <code>motors.json</code> in the same folder as <code>index.html</code>. This page auto-loads it.</p>
+                {loadErr && <p className="text-red-600 text-sm">Failed to load motors.json: {String(loadErr)}</p>}
+                {!db && !loadErr && <p className="text-gray-500 text-sm">Loading…</p>}
+              </div>
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="p-6">
-        <h1 className="text-3xl font-bold">Motor Power Curve Compare</h1>
-        <p className="text-gray-600 mt-1">Compare two motors/props from a database file. X = Current (A), Y = Lift (kg). Hover to read values. Adds flight-time estimate for a {motorCount}‑motor craft.</p>
-      </header>
+              <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
+                <h2 className="text-xl font-semibold">Voltage</h2>
+                <div className="flex items-center gap-3">
+                  <label className="inline-flex items-center gap-2">
+                    <input type="radio" name="volt" value="6S" checked={voltage==='6S'} onChange={()=>setVoltage('6S')} /> 6S
+                  </label>
+                  <label className="inline-flex items-center gap-2">
+                    <input type="radio" name="volt" value="12S" checked={voltage==='12S'} onChange={()=>setVoltage('12S')} /> 12S
+                  </label>
+                </div>
+              </div>
 
-      <main className="grid grid-cols-1 xl:grid-cols-3 gap-6 p-6">
-        {/* Controls */}
-        <section className="xl:col-span-1 space-y-6">
-          <div className="p-4 bg-white rounded-2xl shadow-sm">
-            <h2 className="text-xl font-semibold mb-3">Data Source</h2>
-            <p className="text-sm text-gray-600">Place <code>motors.json</code> in the site root (or <code>/public</code> if bundling). This app auto-loads it.</p>
-            {loadErr && <p className="text-red-600 text-sm">Failed to load motors.json: {loadErr}</p>}
-            {!db && !loadErr && <p className="text-gray-500 text-sm">Loading…</p>}
-          </div>
+              <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
+                <h2 className="text-xl font-semibold">Motor A</h2>
+                <MotorPropPicker db={db} motor={motorA} setMotor={setMotorA} prop={propA} setProp={setPropA} voltage={voltage} />
+              </div>
 
-          <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
-            <h2 className="text-xl font-semibold">Voltage</h2>
-            <VoltageToggle value={voltage} onChange={setVoltage} />
-          </div>
+              <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
+                <h2 className="text-xl font-semibold">Motor B</h2>
+                <MotorPropPicker db={db} motor={motorB} setMotor={setMotorB} prop={propB} setProp={setPropB} voltage={voltage} />
+              </div>
 
-          <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
-            <h2 className="text-xl font-semibold">Motor A</h2>
-            <MotorPropPicker db={db} motor={motorA} setMotor={setMotorA} prop={propA} setProp={setPropA} voltage={voltage} />
-          </div>
+              <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
+                <h2 className="text-xl font-semibold">Flight‑time Inputs</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  <label className="text-sm">Takeoff weight (kg)
+                    <input type="number" step="0.1" className="mt-1 border rounded px-2 py-1 w-full" value={takeoffKg} onChange={e=>setTakeoffKg(Number(e.target.value)||0)} />
+                  </label>
+                  <label className="text-sm">Battery capacity (Ah)
+                    <input type="number" step="0.1" className="mt-1 border rounded px-2 py-1 w-full" value={capacityAh} onChange={e=>setCapacityAh(Number(e.target.value)||0)} />
+                  </label>
+                  <label className="text-sm">Usable %
+                    <input type="number" step="1" className="mt-1 border rounded px-2 py-1 w-full" value={usablePct} onChange={e=>setUsablePct(Number(e.target.value)||0)} />
+                  </label>
+                  <label className="text-sm">Motors
+                    <input type="number" className="mt-1 border rounded px-2 py-1 w-full bg-gray-100" value={motorCount} readOnly />
+                  </label>
+                </div>
+              </div>
 
-          <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
-            <h2 className="text-xl font-semibold">Motor B</h2>
-            <MotorPropPicker db={db} motor={motorB} setMotor={setMotorB} prop={propB} setProp={setPropB} voltage={voltage} />
-          </div>
+              <div className="p-4 bg-white rounded-2xl shadow-sm space-y-3">
+                <h2 className="text-xl font-semibold">Hover Estimate</h2>
+                <p className="text-sm text-gray-600">Required per-motor lift: <b>{perMotorLiftNeeded.toFixed(3)} kg</b></p>
 
-          <div className="p-4 bg-white rounded-2xl shadow-sm space-y-4">
-            <h2 className="text-xl font-semibold">Flight‑time Inputs</h2>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="text-sm">Takeoff weight (kg)
-                <input type="number" step="0.1" className="mt-1 border rounded px-2 py-1 w-full" value={takeoffKg} onChange={e => setTakeoffKg(Number(e.target.value)||0)} />
-              </label>
-              <label className="text-sm">Battery capacity (Ah)
-                <input type="number" step="0.1" className="mt-1 border rounded px-2 py-1 w-full" value={capacityAh} onChange={e => setCapacityAh(Number(e.target.value)||0)} />
-              </label>
-              <label className="text-sm">Usable %
-                <input type="number" step="1" className="mt-1 border rounded px-2 py-1 w-full" value={usablePct} onChange={e => setUsablePct(Number(e.target.value)||0)} />
-              </label>
-              <label className="text-sm">Motors
-                <input type="number" className="mt-1 border rounded px-2 py-1 w-full bg-gray-100" value={motorCount} readOnly />
-              </label>
-            </div>
-          </div>
+                <HoverCard title="Motor A" hover={hoverA} timeMin={timeA} />
+                <HoverCard title="Motor B" hover={hoverB} timeMin={timeB} />
+                <p className="text-xs text-gray-500">* If an asterisk appears, the spec sheet doesn’t include data that low; shown value is at the lowest listed throttle, so actual flight time would be longer.</p>
+              </div>
+            </section>
 
-          <div className="p-4 bg-white rounded-2xl shadow-sm space-y-3">
-            <h2 className="text-xl font-semibold">Hover Estimate</h2>
-            <p className="text-sm text-gray-600">Required per-motor lift: <b>{perMotorLiftNeeded.toFixed(3)} kg</b></p>
+            {/* Chart */}
+            <section className="xl:col-span-2 p-4 bg-white rounded-2xl shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-xl font-semibold">Power Curves</h2>
+                <LegendInline specA={specA} propA={propSpecA} specB={specB} propB={propSpecB} />
+              </div>
+              <div className="h-[560px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={merged} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" dataKey="x" name="Current" unit=" A" label={{ value: "Current (A)", position: "insideBottom", offset: -5 }} domain={["auto","auto"]} />
+                    <YAxis type="number" yAxisId="left" dataKey="A" name="Lift" unit=" kg" label={{ value: "Lift (kg)", angle: -90, position: "insideLeft" }} domain={["auto","auto"]} />
+                    <YAxis type="number" yAxisId="right" orientation="right" dataKey="B" name="Lift" unit=" kg" hide />
+                    <Tooltip content={<HoverTip propAName={propSpecA?.name} propBName={propSpecB?.name} />} />
+                    <Line connectNulls yAxisId="left" type="monotone" dataKey="A" name={(specA?.name||'A') + (propSpecA ? ` • ${propSpecA.name}` : '')} dot={false} strokeWidth={2} />
+                    <Line connectNulls yAxisId="left" type="monotone" dataKey="B" name={(specB?.name||'B') + (propSpecB ? ` • ${propSpecB.name}` : '')} dot={false} strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </section>
+          </main>
 
-            <HoverCard title="Motor A" hover={hoverA} timeMin={timeA} />
-            <HoverCard title="Motor B" hover={hoverB} timeMin={timeB} />
-            <p className="text-xs text-gray-500">* If an asterisk appears, the spec sheet doesn’t include data that low; shown value is at the lowest listed throttle, so actual flight time would be longer.</p>
-          </div>
-        </section>
+          <footer className="p-6 text-center text-sm text-gray-500">
+            Deploy these two files:
+            <div><code>index.html</code> (this page)</div>
+            <div><code>motors.json</code> (your data)</div>
+          </footer>
 
-        {/* Chart */}
-        <section className="xl:col-span-2 p-4 bg-white rounded-2xl shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-xl font-semibold">Power Curves</h2>
-            <LegendInline specA={specA} propA={propSpecA} specB={specB} propB={propSpecB} />
-          </div>
-          <div className="h-[560px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={merged} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" dataKey="x" name="Current" unit=" A" label={{ value: "Current (A)", position: "insideBottom", offset: -5 }} domain={["auto", "auto"]} />
-                <YAxis type="number" yAxisId="left" dataKey="A" name="Lift" unit=" kg" label={{ value: "Lift (kg)", angle: -90, position: "insideLeft" }} domain={["auto", "auto"]} />
-                <YAxis type="number" yAxisId="right" orientation="right" dataKey="B" name="Lift" unit=" kg" hide />
-                <Tooltip content={<HoverTip propAName={propSpecA?.name} propBName={propSpecB?.name} />} />
-                <Line connectNulls yAxisId="left" type="monotone" dataKey="A" name={(specA?.name || "A") + (propSpecA ? ` • ${propSpecA.name}` : "")} dot={false} strokeWidth={2} />
-                <Line connectNulls yAxisId="left" type="monotone" dataKey="B" name={(specB?.name || "B") + (propSpecB ? ` • ${propSpecB.name}` : "")} dot={false} strokeWidth={2} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-      </main>
-
-      <footer className="p-6 text-center text-sm text-gray-500">
-        Works on GitHub Pages. Ensure <code>motors.json</code> is deployed alongside the app. Format shown below.
-      </footer>
-
-      <section className="p-6">
-        <details className="bg-white rounded-2xl shadow-sm p-4">
-          <summary className="cursor-pointer font-semibold">motors.json example (trimmed)</summary>
-          <pre className="text-xs overflow-x-auto mt-3">{`
+          <section className="p-6">
+            <details className="bg-white rounded-2xl shadow-sm p-4">
+              <summary className="cursor-pointer font-semibold">motors.json example (trimmed)</summary>
+              <pre className="text-xs overflow-x-auto mt-3">{`
 {
   "motors": [
     {
@@ -303,110 +264,96 @@ export default function MotorCompareApp() {
   ]
 }
 `}</pre>
-        </details>
-      </section>
-    </div>
-  );
-}
+            </details>
+          </section>
+        </div>
+      );
+    }
 
-// ---------------- Subcomponents ----------------
-function VoltageToggle({ value, onChange }: { value: "6S" | "12S"; onChange: (v: "6S" | "12S") => void }) {
-  return (
-    <div className="flex items-center gap-3">
-      <label className="inline-flex items-center gap-2">
-        <input type="radio" name="volt" value="6S" checked={value === "6S"} onChange={() => onChange("6S")} /> 6S
-      </label>
-      <label className="inline-flex items-center gap-2">
-        <input type="radio" name="volt" value="12S" checked={value === "12S"} onChange={() => onChange("12S")} /> 12S
-      </label>
-    </div>
-  );
-}
+    function MotorPropPicker({ db, motor, setMotor, prop, setProp, voltage }){
+      const motors = db?.motors || [];
+      const selected = byId(motors, motor);
+      const props = (selected?.props || []).filter(p => p.data && p.data[voltage] && p.data[voltage].length);
 
-function MotorPropPicker({ db, motor, setMotor, prop, setProp, voltage }:{ db: MotorDB | null; motor: string | undefined; setMotor: (v: string | undefined) => void; prop: string | undefined; setProp: (v: string | undefined) => void; voltage: "6S" | "12S"; }) {
-  const motors = db?.motors ?? [];
-  const selected = byId(motors, motor);
-  const props = selected?.props?.filter(p => p.data[voltage] && p.data[voltage]!.length) ?? [];
+      React.useEffect(()=>{
+        if(prop && props.every(p=>p.id !== prop)) setProp(undefined);
+      }, [voltage, motor]);
 
-  // Reset prop if voltage change invalidates selection
-  useEffect(() => {
-    if (prop && props.every(p => p.id !== prop)) setProp(undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [voltage, motor]);
+      return (
+        <div className="space-y-3">
+          <div>
+            <div className="text-sm text-gray-600 mb-1">Motor</div>
+            <select className="border rounded px-2 py-1 w-full" value={motor || ''} onChange={e=>setMotor(e.target.value || undefined)}>
+              <option value="">Select a motor…</option>
+              {motors.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+            </select>
+          </div>
+          <div>
+            <div className="text-sm text-gray-600 mb-1">Prop (filtered by voltage {voltage})</div>
+            <select className="border rounded px-2 py-1 w-full" value={prop || ''} onChange={e=>setProp(e.target.value || undefined)} disabled={!selected}>
+              <option value="">{selected ? 'Select a prop…' : 'Select a motor first'}</option>
+              {props.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+            </select>
+          </div>
+          {selected?.notes && <p className="text-xs text-gray-500">{selected.notes}</p>}
+        </div>
+      );
+    }
 
-  return (
-    <div className="space-y-3">
-      <div>
-        <div className="text-sm text-gray-600 mb-1">Motor</div>
-        <select className="border rounded px-2 py-1 w-full" value={motor ?? ""} onChange={e => setMotor(e.target.value || undefined)}>
-          <option value="">Select a motor…</option>
-          {motors.map(m => (
-            <option key={m.id} value={m.id}>{m.name}</option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <div className="text-sm text-gray-600 mb-1">Prop (filtered by voltage {voltage})</div>
-        <select className="border rounded px-2 py-1 w-full" value={prop ?? ""} onChange={e => setProp(e.target.value || undefined)} disabled={!selected}>
-          <option value="">{selected ? "Select a prop…" : "Select a motor first"}</option>
-          {props.map(p => (
-            <option key={p.id} value={p.id}>{p.name}</option>
-          ))}
-        </select>
-      </div>
-      {selected?.notes && <p className="text-xs text-gray-500">{selected.notes}</p>}
-    </div>
-  );
-}
+    function LegendInline({ specA, propA, specB, propB }){
+      return (
+        <div className="text-sm text-gray-700">
+          <span className="inline-flex items-center gap-2 mr-4"><span className="inline-block w-3 h-3 rounded-full bg-black/80" />{specA ? specA.name : 'Motor A'}{propA ? ` • ${propA.name}` : ''}</span>
+          <span className="inline-flex items-center gap-2"><span className="inline-block w-3 h-3 rounded-full bg-gray-400" />{specB ? specB.name : 'Motor B'}{propB ? ` • ${propB.name}` : ''}</span>
+        </div>
+      );
+    }
 
-function LegendInline({ specA, propA, specB, propB }:{ specA?: MotorSpec; propA?: PropDataset; specB?: MotorSpec; propB?: PropDataset; }) {
-  return (
-    <div className="text-sm text-gray-700">
-      <span className="inline-flex items-center gap-2 mr-4"><span className="inline-block w-3 h-3 rounded-full bg-black/80" />{specA ? specA.name : "Motor A"}{propA ? ` • ${propA.name}` : ""}</span>
-      <span className="inline-flex items-center gap-2"><span className="inline-block w-3 h-3 rounded-full bg-gray-400" />{specB ? specB.name : "Motor B"}{propB ? ` • ${propB.name}` : ""}</span>
-    </div>
-  );
-}
+    function HoverTip({ active, payload, label, propAName, propBName }){
+      if (!active || !payload || !payload.length) return null;
+      const row = payload.reduce((acc, p) => ({ ...acc, ...p.payload }), {});
+      const a = payload.find(p => p.dataKey === 'A');
+      const b = payload.find(p => p.dataKey === 'B');
+      const x = row.x;
+      return (
+        <div className="bg-white/95 border rounded-md p-2 text-xs shadow">
+          <div className="font-semibold">Current: {Number(x).toFixed(2)} A</div>
+          {a && a.value != null && (
+            <div>A{propAName ? ` • ${propAName}` : ''}: {Number(a.value).toFixed(3)} kg</div>
+          )}
+          {b && b.value != null && (
+            <div>B{propBName ? ` • ${propBName}` : ''}: {Number(b.value).toFixed(3)} kg</div>
+          )}
+          {row.tA != null && <div>Throttle A: {row.tA}%</div>}
+          {row.tB != null && <div>Throttle B: {row.tB}%</div>}
+        </div>
+      );
+    }
 
-function HoverTip({ active, payload, label, propAName, propBName }:{ active?: boolean; payload?: any[]; label?: any; propAName?: string; propBName?: string; }) {
-  if (!active || !payload || !payload.length) return null;
-  const row = payload.reduce((acc, p) => ({ ...acc, ...p.payload }), {});
-  const a = payload.find(p => p.dataKey === "A");
-  const b = payload.find(p => p.dataKey === "B");
-  const x = row.x;
-  return (
-    <div className="bg-white/95 border rounded-md p-2 text-xs shadow">
-      <div className="font-semibold">Current: {Number(x).toFixed(2)} A</div>
-      {a && a.value != null && (
-        <div>A{propAName ? ` • ${propAName}` : ""}: {Number(a.value).toFixed(3)} kg</div>
-      )}
-      {b && b.value != null && (
-        <div>B{propBName ? ` • ${propBName}` : ""}: {Number(b.value).toFixed(3)} kg</div>
-      )}
-      {row.tA != null && <div>Throttle A: {row.tA}%</div>}
-      {row.tB != null && <div>Throttle B: {row.tB}%</div>}
-    </div>
-  );
-}
-
-function HoverCard({ title, hover, timeMin }:{ title: string; hover: any; timeMin: number | null }) {
-  return (
-    <div className="border rounded-xl p-3">
-      <div className="font-semibold mb-1">{title}</div>
-      {hover.ok ? (
-        <div className="text-sm">
-          <div>Hover current per motor: <b>{hover.currentA.toFixed(2)} A{hover.noteLow ? "*" : ""}</b></div>
-          <div>Estimated throttle: <b>{hover.throttle.toFixed(1)}%{hover.noteLow ? "*" : ""}</b></div>
-          <div>Total current (4 motors): <b>{(hover.currentA * 4).toFixed(1)} A{hover.noteLow ? "*" : ""}</b></div>
-          {timeMin != null ? (
-            <div>Estimated flight time: <b>{timeMin.toFixed(1)} min{hover.noteLow ? "*" : ""}</b></div>
+    function HoverCard({ title, hover, timeMin }){
+      return (
+        <div className="border rounded-xl p-3">
+          <div className="font-semibold mb-1">{title}</div>
+          {hover.ok ? (
+            <div className="text-sm">
+              <div>Hover current per motor: <b>{hover.currentA.toFixed(2)} A{hover.noteLow ? '*' : ''}</b></div>
+              <div>Estimated throttle: <b>{hover.throttle.toFixed(1)}%{hover.noteLow ? '*' : ''}</b></div>
+              <div>Total current (4 motors): <b>{(hover.currentA * 4).toFixed(1)} A{hover.noteLow ? '*' : ''}</b></div>
+              {timeMin != null ? (
+                <div>Estimated flight time: <b>{timeMin.toFixed(1)} min{hover.noteLow ? '*' : ''}</b></div>
+              ) : (
+                <div className="text-gray-500">Add battery info to see flight time.</div>
+              )}
+            </div>
           ) : (
-            <div className="text-gray-500">Add battery info to see flight time.</div>
+            <div className="text-sm text-red-600">{hover.reason === 'exceeds-max' ? 'Required lift exceeds the max in the spec sheet at this voltage/prop.' : 'No data for this selection.'}</div>
           )}
         </div>
-      ) : (
-        <div className="text-sm text-red-600">{hover.reason === "exceeds-max" ? "Required lift exceeds the max in the spec sheet at this voltage/prop." : "No data for this selection."}</div>
-      )}
-    </div>
-  );
-}
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
