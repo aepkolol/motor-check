@@ -4,15 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Motor Power Curve Compare</title>
-  <!-- Tailwind for quick styling (CDN, works on GitHub Pages) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- React 18 UMD -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <!-- Recharts UMD -->
-    <script crossorigin src="https://cdn.jsdelivr.net/npm/recharts/umd/Recharts.min.js"></script>
-  <!-- Babel for in-browser JSX transform (simple deploy; swap to a real build later for perf) -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind (ok for quick GH Pages demos) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React 17 UMD (dev or prod; prod is smaller) -->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    
+    <!-- Recharts UMD peer deps -->
+    <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-is/umd/react-is.production.min.js"></script>
+    
+    <!-- Recharts UMD (use a version that ships UMD correctly) -->
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/recharts@2.1.9/umd/Recharts.min.js"></script>
+    
+    <!-- Babel (only for no-build setup) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 </head>
 <body class="bg-gray-50 text-gray-900">
   <div id="root"></div>
