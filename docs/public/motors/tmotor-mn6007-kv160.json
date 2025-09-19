@@ -1,0 +1,42 @@
+{
+  "id": "tmotor-mn6007-kv160",
+  "name": "T-Motor MN6007 KV160 (Antigravity)",
+  "props": [
+    {
+      "id": "mf2211",
+      "name": "MF2211",
+      "data": {
+        "12S": [
+          { "throttle": 40,  "current": 3.65, "thrust_kg": 1.926 },
+          { "throttle": 45,  "current": 4.89, "thrust_kg": 2.362 },
+          { "throttle": 50,  "current": 6.40, "thrust_kg": 2.831 },
+          { "throttle": 55,  "current": 8.13, "thrust_kg": 3.322 },
+          { "throttle": 60,  "current": 10.17, "thrust_kg": 3.846 },
+          { "throttle": 65,  "current": 12.39, "thrust_kg": 4.369 },
+          { "throttle": 70,  "current": 14.84, "thrust_kg": 4.895 },
+          { "throttle": 75,  "current": 17.51, "thrust_kg": 5.419 },
+          { "throttle": 80,  "current": 20.34, "thrust_kg": 5.926 },
+          { "throttle": 85,  "current": 22.69, "thrust_kg": 6.291 },
+          { "throttle": 90,  "current": 22.79, "thrust_kg": 6.299 },
+          { "throttle": 95,  "current": 22.85, "thrust_kg": 6.297 },
+          { "throttle": 100, "current": 22.91, "thrust_kg": 6.291 }
+        ],
+        "6S": [
+          { "throttle": 40,  "current": 5.14, "thrust_kg": 1.486 },
+          { "throttle": 45,  "current": 7.26, "thrust_kg": 1.890 },
+          { "throttle": 50,  "current": 9.73, "thrust_kg": 2.320 },
+          { "throttle": 55,  "current": 12.71, "thrust_kg": 2.739 },
+          { "throttle": 60,  "current": 16.04, "thrust_kg": 3.194 },
+          { "throttle": 65,  "current": 20.07, "thrust_kg": 3.698 },
+          { "throttle": 70,  "current": 24.41, "thrust_kg": 4.187 },
+          { "throttle": 75,  "current": 29.20, "thrust_kg": 4.675 },
+          { "throttle": 80,  "current": 34.30, "thrust_kg": 5.135 },
+          { "throttle": 85,  "current": 39.81, "thrust_kg": 5.578 },
+          { "throttle": 90,  "current": 45.53, "thrust_kg": 6.005 },
+          { "throttle": 95,  "current": 50.81, "thrust_kg": 6.374 },
+          { "throttle": 100, "current": 52.86, "thrust_kg": 6.495 }
+        ]
+      }
+    }
+  ]
+}

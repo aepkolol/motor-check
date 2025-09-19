@@ -1,0 +1,15 @@
+[
+  { "id": "kde8218xf-120", "name": "KDE 8218XF-120", "url": "./motors/kde8218xf-120.json" },
+  { "id": "p80iii-100kv-p", "name": "T-Motor P80 III 100kV", "url": "./motors/p80iii-100kv-p.json" },
+  { "id": "kde7215-135", "name": "KDE 7215XF-135", "url": "./motors/kde7215-135.json" },
+  { "id": "kde10218-105", "name": "KDE 10218XF-105", "url": "./motors/kde10218-105.json" },
+  { "id": "max8020", "name": "Brother MAX 8020", "url": "./motors/max8020.json" },
+  { "id": "max8120", "name": "Brother MAX 8120", "url": "./motors/max8120.json" },
+  { "id": "p60-kv170", "name": "T-Motor P60 KV170", "url": "./motors/tmotor-p60-kv170.json" },
+  { "id": "u8lite-kv85", "name": "T-Motor U8 Lite KV85", "url": "./motors/tmotor-u8lite-kv85.json" },
+  { "id": "u8ii-lite-kv100", "name": "T-Motor U8Ⅱ Lite KV100", "url": "./motors/tmotor-u8ii-lite-kv100.json" },
+  { "id": "u10ii-kv100", "name": "T-Motor U10Ⅱ KV100", "url": "./motors/tmotor-u10ii-kv100.json" },
+  { "id": "u8ii-pro-kv100", "name": "T-Motor U8Ⅱ Pro KV100", "url": "./motors/tmotor-u8ii-pro-kv100.json" },
+  { "id": "mn7005-kv115", "name": "T-Motor MN7005 KV115 (Antigravity)", "url": "./motors/tmotor-mn7005-kv115.json" },
+  { "id": "mn6007-kv160", "name": "T-Motor MN6007 KV160 (Antigravity)", "url": "./motors/tmotor-mn6007-kv160.json" }
+]

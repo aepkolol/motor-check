@@ -1,0 +1,132 @@
+{
+  "id": "tmotor-u8ii-lite-kv100",
+  "name": "T-Motor U8\u2161 Lite KV100",
+  "props": [
+    {
+      "id": "g27x8.8-cf",
+      "name": "G27\u00d78.8 CF",
+      "data": {
+        "12S": [
+          {
+            "throttle": 40,
+            "current": 3.47,
+            "thrust_kg": 2.038
+          },
+          {
+            "throttle": 45,
+            "current": 4.68,
+            "thrust_kg": 2.542
+          },
+          {
+            "throttle": 50,
+            "current": 5.95,
+            "thrust_kg": 3.0
+          },
+          {
+            "throttle": 55,
+            "current": 7.24,
+            "thrust_kg": 3.458
+          },
+          {
+            "throttle": 60,
+            "current": 8.72,
+            "thrust_kg": 3.956
+          },
+          {
+            "throttle": 65,
+            "current": 10.43,
+            "thrust_kg": 4.491
+          },
+          {
+            "throttle": 70,
+            "current": 11.87,
+            "thrust_kg": 4.888
+          },
+          {
+            "throttle": 75,
+            "current": 13.9,
+            "thrust_kg": 5.442
+          },
+          {
+            "throttle": 80,
+            "current": 16.05,
+            "thrust_kg": 5.958
+          },
+          {
+            "throttle": 90,
+            "current": 20.75,
+            "thrust_kg": 7.052
+          },
+          {
+            "throttle": 100,
+            "current": 27.64,
+            "thrust_kg": 8.442
+          }
+        ]
+      }
+    },
+    {
+      "id": "g28x9.2-cf",
+      "name": "G28\u00d79.2 CF",
+      "data": {
+        "12S": [
+          {
+            "throttle": 40,
+            "current": 3.92,
+            "thrust_kg": 2.26
+          },
+          {
+            "throttle": 45,
+            "current": 5.43,
+            "thrust_kg": 2.843
+          },
+          {
+            "throttle": 50,
+            "current": 6.71,
+            "thrust_kg": 3.307
+          },
+          {
+            "throttle": 55,
+            "current": 8.19,
+            "thrust_kg": 3.787
+          },
+          {
+            "throttle": 60,
+            "current": 9.87,
+            "thrust_kg": 4.323
+          },
+          {
+            "throttle": 65,
+            "current": 11.71,
+            "thrust_kg": 4.851
+          },
+          {
+            "throttle": 70,
+            "current": 13.79,
+            "thrust_kg": 5.396
+          },
+          {
+            "throttle": 75,
+            "current": 15.72,
+            "thrust_kg": 5.905
+          },
+          {
+            "throttle": 80,
+            "current": 17.96,
+            "thrust_kg": 6.479
+          },
+          {
+            "throttle": 90,
+            "current": 23.31,
+            "thrust_kg": 7.663
+          },
+          {
+            "throttle": 100,
+            "current": 31.11,
+            "thrust_kg": 9.122
+          }
+        ]
+      }
+    }
+  ]
+}

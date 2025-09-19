@@ -1,0 +1,458 @@
+{
+  "id": "tmotor-p80iii-kv100-pin",
+  "name": "T-Motor P80 III (Pin) KV100",
+  "props": [
+    {
+      "id": "g30x10x5-cf",
+      "name": "G30\u00d710.5 CF",
+      "data": {
+        "12S": [
+          {
+            "throttle": 40,
+            "current": 4.97,
+            "thrust_kg": 2.85
+          },
+          {
+            "throttle": 42,
+            "current": 5.54,
+            "thrust_kg": 3.108
+          },
+          {
+            "throttle": 44,
+            "current": 6.07,
+            "thrust_kg": 3.331
+          },
+          {
+            "throttle": 46,
+            "current": 6.65,
+            "thrust_kg": 3.571
+          },
+          {
+            "throttle": 48,
+            "current": 7.29,
+            "thrust_kg": 3.859
+          },
+          {
+            "throttle": 50,
+            "current": 7.99,
+            "thrust_kg": 4.114
+          },
+          {
+            "throttle": 52,
+            "current": 8.8,
+            "thrust_kg": 4.439
+          },
+          {
+            "throttle": 54,
+            "current": 9.8,
+            "thrust_kg": 4.748
+          },
+          {
+            "throttle": 56,
+            "current": 10.89,
+            "thrust_kg": 5.143
+          },
+          {
+            "throttle": 58,
+            "current": 12.2,
+            "thrust_kg": 5.515
+          },
+          {
+            "throttle": 60,
+            "current": 13.11,
+            "thrust_kg": 5.886
+          },
+          {
+            "throttle": 62,
+            "current": 14.39,
+            "thrust_kg": 6.306
+          },
+          {
+            "throttle": 64,
+            "current": 15.56,
+            "thrust_kg": 6.649
+          },
+          {
+            "throttle": 66,
+            "current": 17.0,
+            "thrust_kg": 7.061
+          },
+          {
+            "throttle": 68,
+            "current": 18.22,
+            "thrust_kg": 7.434
+          },
+          {
+            "throttle": 70,
+            "current": 20.15,
+            "thrust_kg": 7.886
+          },
+          {
+            "throttle": 76,
+            "current": 24.34,
+            "thrust_kg": 9.074
+          },
+          {
+            "throttle": 82,
+            "current": 29.34,
+            "thrust_kg": 10.215
+          },
+          {
+            "throttle": 88,
+            "current": 34.75,
+            "thrust_kg": 11.5
+          },
+          {
+            "throttle": 94,
+            "current": 40.33,
+            "thrust_kg": 12.603
+          },
+          {
+            "throttle": 100,
+            "current": 46.99,
+            "thrust_kg": 14.011
+          }
+        ]
+      }
+    },
+    {
+      "id": "mf3016",
+      "name": "MF3016",
+      "data": {
+        "12S": [
+          {
+            "throttle": 40,
+            "current": 5.32,
+            "thrust_kg": 3.05
+          },
+          {
+            "throttle": 42,
+            "current": 5.9,
+            "thrust_kg": 3.296
+          },
+          {
+            "throttle": 44,
+            "current": 6.52,
+            "thrust_kg": 3.508
+          },
+          {
+            "throttle": 46,
+            "current": 7.1,
+            "thrust_kg": 3.729
+          },
+          {
+            "throttle": 48,
+            "current": 7.72,
+            "thrust_kg": 4.02
+          },
+          {
+            "throttle": 50,
+            "current": 8.46,
+            "thrust_kg": 4.278
+          },
+          {
+            "throttle": 52,
+            "current": 9.41,
+            "thrust_kg": 4.616
+          },
+          {
+            "throttle": 54,
+            "current": 10.33,
+            "thrust_kg": 4.902
+          },
+          {
+            "throttle": 56,
+            "current": 11.58,
+            "thrust_kg": 5.361
+          },
+          {
+            "throttle": 58,
+            "current": 12.68,
+            "thrust_kg": 5.729
+          },
+          {
+            "throttle": 60,
+            "current": 14.14,
+            "thrust_kg": 6.189
+          },
+          {
+            "throttle": 62,
+            "current": 15.38,
+            "thrust_kg": 6.526
+          },
+          {
+            "throttle": 64,
+            "current": 16.86,
+            "thrust_kg": 6.969
+          },
+          {
+            "throttle": 66,
+            "current": 18.14,
+            "thrust_kg": 7.363
+          },
+          {
+            "throttle": 68,
+            "current": 19.5,
+            "thrust_kg": 7.719
+          },
+          {
+            "throttle": 70,
+            "current": 21.1,
+            "thrust_kg": 8.132
+          },
+          {
+            "throttle": 76,
+            "current": 26.16,
+            "thrust_kg": 9.395
+          },
+          {
+            "throttle": 82,
+            "current": 31.59,
+            "thrust_kg": 10.618
+          },
+          {
+            "throttle": 88,
+            "current": 37.16,
+            "thrust_kg": 11.833
+          },
+          {
+            "throttle": 94,
+            "current": 43.34,
+            "thrust_kg": 13.009
+          },
+          {
+            "throttle": 100,
+            "current": 50.42,
+            "thrust_kg": 14.371
+          }
+        ]
+      }
+    },
+    {
+      "id": "g32x11-cf",
+      "name": "G32\u00d711 CF",
+      "data": {
+        "12S": [
+          {
+            "throttle": 40,
+            "current": 6.23,
+            "thrust_kg": 3.569
+          },
+          {
+            "throttle": 42,
+            "current": 6.84,
+            "thrust_kg": 3.833
+          },
+          {
+            "throttle": 44,
+            "current": 7.57,
+            "thrust_kg": 4.074
+          },
+          {
+            "throttle": 46,
+            "current": 8.08,
+            "thrust_kg": 4.329
+          },
+          {
+            "throttle": 48,
+            "current": 9.0,
+            "thrust_kg": 4.655
+          },
+          {
+            "throttle": 50,
+            "current": 9.89,
+            "thrust_kg": 4.992
+          },
+          {
+            "throttle": 52,
+            "current": 10.76,
+            "thrust_kg": 5.325
+          },
+          {
+            "throttle": 54,
+            "current": 11.96,
+            "thrust_kg": 5.655
+          },
+          {
+            "throttle": 56,
+            "current": 13.22,
+            "thrust_kg": 6.143
+          },
+          {
+            "throttle": 58,
+            "current": 14.61,
+            "thrust_kg": 6.604
+          },
+          {
+            "throttle": 60,
+            "current": 16.52,
+            "thrust_kg": 7.188
+          },
+          {
+            "throttle": 62,
+            "current": 17.83,
+            "thrust_kg": 7.609
+          },
+          {
+            "throttle": 64,
+            "current": 19.37,
+            "thrust_kg": 7.997
+          },
+          {
+            "throttle": 66,
+            "current": 20.83,
+            "thrust_kg": 8.413
+          },
+          {
+            "throttle": 68,
+            "current": 22.42,
+            "thrust_kg": 8.783
+          },
+          {
+            "throttle": 70,
+            "current": 24.31,
+            "thrust_kg": 9.372
+          },
+          {
+            "throttle": 76,
+            "current": 30.37,
+            "thrust_kg": 10.84
+          },
+          {
+            "throttle": 82,
+            "current": 36.47,
+            "thrust_kg": 12.181
+          },
+          {
+            "throttle": 88,
+            "current": 43.11,
+            "thrust_kg": 13.512
+          },
+          {
+            "throttle": 94,
+            "current": 50.65,
+            "thrust_kg": 14.961
+          },
+          {
+            "throttle": 100,
+            "current": 58.51,
+            "thrust_kg": 16.344
+          }
+        ]
+      }
+    },
+    {
+      "id": "mf3218",
+      "name": "MF3218",
+      "data": {
+        "12S": [
+          {
+            "throttle": 40,
+            "current": 6.23,
+            "thrust_kg": 3.505
+          },
+          {
+            "throttle": 42,
+            "current": 6.71,
+            "thrust_kg": 3.744
+          },
+          {
+            "throttle": 44,
+            "current": 7.43,
+            "thrust_kg": 3.992
+          },
+          {
+            "throttle": 46,
+            "current": 8.2,
+            "thrust_kg": 4.267
+          },
+          {
+            "throttle": 48,
+            "current": 8.98,
+            "thrust_kg": 4.565
+          },
+          {
+            "throttle": 50,
+            "current": 9.75,
+            "thrust_kg": 4.885
+          },
+          {
+            "throttle": 52,
+            "current": 11.0,
+            "thrust_kg": 5.248
+          },
+          {
+            "throttle": 54,
+            "current": 11.93,
+            "thrust_kg": 5.592
+          },
+          {
+            "throttle": 56,
+            "current": 13.24,
+            "thrust_kg": 6.039
+          },
+          {
+            "throttle": 58,
+            "current": 14.65,
+            "thrust_kg": 6.51
+          },
+          {
+            "throttle": 60,
+            "current": 16.3,
+            "thrust_kg": 7.018
+          },
+          {
+            "throttle": 62,
+            "current": 17.7,
+            "thrust_kg": 7.408
+          },
+          {
+            "throttle": 64,
+            "current": 19.12,
+            "thrust_kg": 7.803
+          },
+          {
+            "throttle": 66,
+            "current": 20.56,
+            "thrust_kg": 8.227
+          },
+          {
+            "throttle": 68,
+            "current": 22.39,
+            "thrust_kg": 8.732
+          },
+          {
+            "throttle": 70,
+            "current": 24.1,
+            "thrust_kg": 9.167
+          },
+          {
+            "throttle": 76,
+            "current": 29.81,
+            "thrust_kg": 10.531
+          },
+          {
+            "throttle": 82,
+            "current": 35.92,
+            "thrust_kg": 11.825
+          },
+          {
+            "throttle": 88,
+            "current": 42.1,
+            "thrust_kg": 13.079
+          },
+          {
+            "throttle": 94,
+            "current": 49.09,
+            "thrust_kg": 14.412
+          },
+          {
+            "throttle": 100,
+            "current": 56.87,
+            "thrust_kg": 15.849
+          }
+        ]
+      }
+    }
+  ]
+}

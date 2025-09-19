@@ -1,0 +1,22 @@
+{
+  "id": "max8120",
+  "name": "MAX 8120",
+  "props": [
+    {
+      "id": "30x10-cf",
+      "name": "30×10 Carbon Fiber Straight",
+      "data": {
+        "12S": [
+          { "throttle": 30, "current": 2.7, "thrust_kg": 1.896 },
+          { "throttle": 40, "current": 4.6, "thrust_kg": 2.954 },
+          { "throttle": 50, "current": 8.0, "thrust_kg": 4.346 },
+          { "throttle": 60, "current": 13.1, "thrust_kg": 6.049 },
+          { "throttle": 70, "current": 22.0, "thrust_kg": 8.469 },
+          { "throttle": 80, "current": 31.2, "thrust_kg": 10.513 },
+          { "throttle": 90, "current": 41.4, "thrust_kg": 12.777 },
+          { "throttle": 100, "current": 52.8, "thrust_kg": 15.130 }
+        ]
+      }
+    }
+  ]
+}

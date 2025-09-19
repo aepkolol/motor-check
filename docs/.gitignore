@@ -1,0 +1,13 @@
+# PowerShell
+@"
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.vite/
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-error.log*
+"@ | Out-File -Encoding utf8 .gitignore

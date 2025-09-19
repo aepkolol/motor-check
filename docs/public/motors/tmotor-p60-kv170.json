@@ -1,0 +1,66 @@
+{
+  "id": "tmotor-p60-kv170",
+  "name": "T-Motor P60 KV170 (P-Type Pin)",
+  "props": [
+    {
+      "id": "20x6-cf",
+      "name": "20×6 CF",
+      "data": {
+        "12S": [
+          { "throttle": 50, "current": 5.4,  "thrust_kg": 2.116 },
+          { "throttle": 55, "current": 6.4,  "thrust_kg": 2.371 },
+          { "throttle": 60, "current": 7.7,  "thrust_kg": 2.762 },
+          { "throttle": 65, "current": 9.3,  "thrust_kg": 3.125 },
+          { "throttle": 75, "current": 13.2, "thrust_kg": 4.002 },
+          { "throttle": 85, "current": 17.3, "thrust_kg": 4.821 },
+          { "throttle": 100,"current": 25.4, "thrust_kg": 6.246 }
+        ]
+      }
+    },
+    {
+      "id": "22x6.6-cf",
+      "name": "22×6.6 CF",
+      "data": {
+        "12S": [
+          { "throttle": 50, "current": 6.6,  "thrust_kg": 3.703 },
+          { "throttle": 55, "current": 8.6,  "thrust_kg": 4.005 },
+          { "throttle": 60, "current": 9.9,  "thrust_kg": 4.289 },
+          { "throttle": 65, "current": 12.4, "thrust_kg": 4.575 },
+          { "throttle": 75, "current": 17.1, "thrust_kg": 5.091 },
+          { "throttle": 85, "current": 23.2, "thrust_kg": 5.635 },
+          { "throttle": 100,"current": 34.0, "thrust_kg": 6.374 }
+        ]
+      }
+    },
+    {
+      "id": "20x6-cf-kv340",
+      "name": "20×6 CF (KV340)",
+      "data": {
+        "12S": [
+          { "throttle": 50, "current": 10.4, "thrust_kg": 1.912 },
+          { "throttle": 55, "current": 12.6, "thrust_kg": 2.207 },
+          { "throttle": 60, "current": 14.5, "thrust_kg": 2.472 },
+          { "throttle": 65, "current": 17.0, "thrust_kg": 2.805 },
+          { "throttle": 75, "current": 23.9, "thrust_kg": 3.493 },
+          { "throttle": 85, "current": 31.5, "thrust_kg": 4.191 },
+          { "throttle": 100,"current": 44.9, "thrust_kg": 5.302 }
+        ]
+      }
+    },
+    {
+      "id": "22x6.6-cf-kv340",
+      "name": "22×6.6 CF (KV340)",
+      "data": {
+        "12S": [
+          { "throttle": 50, "current": 14.0, "thrust_kg": 2.683 },
+          { "throttle": 55, "current": 17.3, "thrust_kg": 3.075 },
+          { "throttle": 60, "current": 20.2, "thrust_kg": 3.444 },
+          { "throttle": 65, "current": 23.0, "thrust_kg": 3.802 },
+          { "throttle": 75, "current": 31.1, "thrust_kg": 4.609 },
+          { "throttle": 85, "current": 40.5, "thrust_kg": 5.459 },
+          { "throttle": 100,"current": 57.8, "thrust_kg": 6.762 }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "max8020",
+  "name": "MAX 8020",
+  "props": [
+    {
+      "id": "32x10-cf",
+      "name": "32×10 Carbon Fiber Straight",
+      "data": {
+        "12S": [
+          { "throttle": 30, "current": 2.7, "thrust_kg": 1.887 },
+          { "throttle": 40, "current": 5.3, "thrust_kg": 3.190 },
+          { "throttle": 50, "current": 10.6, "thrust_kg": 4.966 },
+          { "throttle": 60, "current": 17.4, "thrust_kg": 7.199 },
+          { "throttle": 70, "current": 24.1, "thrust_kg": 8.965 },
+          { "throttle": 80, "current": 35.4, "thrust_kg": 11.554 },
+          { "throttle": 90, "current": 45.3, "thrust_kg": 13.481 },
+          { "throttle": 100, "current": 57.9, "thrust_kg": 15.869 }
+        ]
+      }
+    }
+  ]
+}

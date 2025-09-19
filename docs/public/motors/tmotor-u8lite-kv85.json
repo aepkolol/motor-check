@@ -1,0 +1,62 @@
+{
+  "id": "tmotor-u8lite-kv85",
+  "name": "T-Motor U8 Lite KV85",
+  "props": [
+    {
+      "id": "g28x9.2-cf",
+      "name": "G28×9.2 CF",
+      "data": {
+        "12S": [
+          { "throttle": 40, "current": 1.80, "thrust_kg": 1.465 },
+          { "throttle": 42, "current": 2.00, "thrust_kg": 1.572 },
+          { "throttle": 44, "current": 2.30, "thrust_kg": 1.717 },
+          { "throttle": 46, "current": 2.60, "thrust_kg": 1.852 },
+          { "throttle": 48, "current": 2.90, "thrust_kg": 1.997 },
+          { "throttle": 50, "current": 3.20, "thrust_kg": 2.140 },
+          { "throttle": 52, "current": 3.40, "thrust_kg": 2.256 },
+          { "throttle": 54, "current": 3.70, "thrust_kg": 2.378 },
+          { "throttle": 56, "current": 4.10, "thrust_kg": 2.528 },
+          { "throttle": 58, "current": 4.60, "thrust_kg": 2.757 },
+          { "throttle": 60, "current": 5.10, "thrust_kg": 2.957 },
+          { "throttle": 62, "current": 5.30, "thrust_kg": 3.027 },
+          { "throttle": 64, "current": 5.70, "thrust_kg": 3.171 },
+          { "throttle": 66, "current": 6.20, "thrust_kg": 3.307 },
+          { "throttle": 68, "current": 6.60, "thrust_kg": 3.448 },
+          { "throttle": 70, "current": 7.10, "thrust_kg": 3.662 },
+          { "throttle": 75, "current": 8.20, "thrust_kg": 4.043 },
+          { "throttle": 80, "current": 9.50, "thrust_kg": 4.468 },
+          { "throttle": 90, "current": 12.20, "thrust_kg": 5.248 },
+          { "throttle": 100, "current": 16.50, "thrust_kg": 6.352 }
+        ]
+      }
+    },
+    {
+      "id": "g29x9.5-cf",
+      "name": "G29×9.5 CF",
+      "data": {
+        "12S": [
+          { "throttle": 40, "current": 2.10, "thrust_kg": 1.696 },
+          { "throttle": 42, "current": 2.40, "thrust_kg": 1.829 },
+          { "throttle": 44, "current": 2.70, "thrust_kg": 1.959 },
+          { "throttle": 46, "current": 3.00, "thrust_kg": 2.119 },
+          { "throttle": 48, "current": 3.20, "thrust_kg": 2.248 },
+          { "throttle": 50, "current": 3.70, "thrust_kg": 2.412 },
+          { "throttle": 52, "current": 4.00, "thrust_kg": 2.610 },
+          { "throttle": 54, "current": 4.40, "thrust_kg": 2.759 },
+          { "throttle": 56, "current": 4.70, "thrust_kg": 2.885 },
+          { "throttle": 58, "current": 5.50, "thrust_kg": 3.193 },
+          { "throttle": 60, "current": 5.80, "thrust_kg": 3.285 },
+          { "throttle": 62, "current": 6.20, "thrust_kg": 3.429 },
+          { "throttle": 64, "current": 6.50, "thrust_kg": 3.561 },
+          { "throttle": 66, "current": 7.10, "thrust_kg": 3.740 },
+          { "throttle": 68, "current": 7.70, "thrust_kg": 3.953 },
+          { "throttle": 70, "current": 8.20, "thrust_kg": 4.094 },
+          { "throttle": 75, "current": 9.50, "thrust_kg": 4.517 },
+          { "throttle": 80, "current": 11.00, "thrust_kg": 4.961 },
+          { "throttle": 90, "current": 14.00, "thrust_kg": 5.875 },
+          { "throttle": 100, "current": 19.10, "thrust_kg": 7.130 }
+        ]
+      }
+    }
+  ]
+}
