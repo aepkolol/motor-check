@@ -10,7 +10,7 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <!-- Recharts UMD -->
-  <script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.min.js"></script>
   <!-- Babel for in-browser JSX transform (simple deploy; swap to a real build later for perf) -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
@@ -19,7 +19,10 @@
 
   <script type="text/babel">
     const { useEffect, useMemo, useState } = React;
-    const { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } = Recharts;
+    // Pull Recharts off the global; if the CDN failed to load, this will be undefined
+    const RechartsNS = window.Recharts;
+    const { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } = RechartsNS || {};
+
 
     // ---------------- Types (JSDoc only for hints) ----------------
     /** @typedef {{ throttle:number, current:number, thrust_kg:number, rpm?:number }} Point */
