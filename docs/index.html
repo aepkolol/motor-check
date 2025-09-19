@@ -5,21 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Motor Power Curve Compare</title>
     <!-- Tailwind (ok for quick GH Pages demos) -->
+    <!-- Tailwind (fine for GH Pages prototypes) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- React 17 UMD (dev or prod; prod is smaller) -->
+    <!-- React 17 UMD -->
     <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
     
-    <!-- Recharts UMD peer deps -->
-    <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-is/umd/react-is.production.min.js"></script>
+    <!-- Recharts peer globals (load BEFORE Recharts) -->
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/react-is@16.13.1/umd/react-is.production.min.js"></script>
     
-    <!-- Recharts UMD (use a version that ships UMD correctly) -->
+    <!-- Recharts UMD (pick a version that ships UMD cleanly) -->
     <script crossorigin src="https://cdn.jsdelivr.net/npm/recharts@2.1.9/umd/Recharts.min.js"></script>
     
-    <!-- Babel (only for no-build setup) -->
+    <!-- Babel for JSX (only because we're no-build) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -27,9 +29,9 @@
 
   <script type="text/babel">
     const { useEffect, useMemo, useState } = React;
-    // Pull Recharts off the global; if the CDN failed to load, this will be undefined
-    const RechartsNS = window.Recharts;
-    const { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } = RechartsNS || {};
+    const R = window.Recharts || {};
+    const { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } = R;
+
 
 
     // ---------------- Types (JSDoc only for hints) ----------------
