@@ -1,0 +1,375 @@
+{
+  "id": "kde8218xf-120",
+  "name": "KDE 8218XF-120",
+  "props": [
+    {
+      "id": "24x5x8x1dualednkde",
+      "name": "24.5\" x 8.1 DUAL-EDN (KDE)",
+      "data": {
+        "12S": [
+          {
+            "throttle": 25.0,
+            "current": 2.6,
+            "thrust_kg": 1.336
+          },
+          {
+            "throttle": 37.5,
+            "current": 5.2,
+            "thrust_kg": 2.366
+          },
+          {
+            "throttle": 50.0,
+            "current": 9.1,
+            "thrust_kg": 3.62
+          },
+          {
+            "throttle": 62.5,
+            "current": 14.7,
+            "thrust_kg": 5.218
+          },
+          {
+            "throttle": 75.0,
+            "current": 22.2,
+            "thrust_kg": 6.85
+          },
+          {
+            "throttle": 87.5,
+            "current": 33.1,
+            "thrust_kg": 9.039
+          },
+          {
+            "throttle": 100.0,
+            "current": 43.3,
+            "thrust_kg": 10.99
+          }
+        ]
+      }
+    },
+    {
+      "id": "24x5x8x1tripleednkde",
+      "name": "24.5\" x 8.1 TRIPLE-EDN (KDE)",
+      "data": {
+        "12S": [
+          {
+            "throttle": 25.0,
+            "current": 3.3,
+            "thrust_kg": 1.714
+          },
+          {
+            "throttle": 37.5,
+            "current": 6.8,
+            "thrust_kg": 3.065
+          },
+          {
+            "throttle": 50.0,
+            "current": 12.5,
+            "thrust_kg": 4.764
+          },
+          {
+            "throttle": 62.5,
+            "current": 19.7,
+            "thrust_kg": 6.59
+          },
+          {
+            "throttle": 75.0,
+            "current": 30.2,
+            "thrust_kg": 8.668
+          },
+          {
+            "throttle": 87.5,
+            "current": 44.6,
+            "thrust_kg": 10.888
+          },
+          {
+            "throttle": 100.0,
+            "current": 56.9,
+            "thrust_kg": 12.711
+          }
+        ]
+      }
+    },
+    {
+      "id": "27x5x8x9dualednkde",
+      "name": "27.5\" x 8.9 DUAL-EDN (KDE)",
+      "data": {
+        "6S": [
+          {
+            "throttle": 25.0,
+            "current": 1.5,
+            "thrust_kg": 0.598
+          },
+          {
+            "throttle": 37.5,
+            "current": 2.9,
+            "thrust_kg": 1.257
+          },
+          {
+            "throttle": 50.0,
+            "current": 5.1,
+            "thrust_kg": 1.741
+          },
+          {
+            "throttle": 62.5,
+            "current": 8.3,
+            "thrust_kg": 2.508
+          },
+          {
+            "throttle": 75.0,
+            "current": 12.4,
+            "thrust_kg": 3.322
+          },
+          {
+            "throttle": 87.5,
+            "current": 17.8,
+            "thrust_kg": 4.129
+          },
+          {
+            "throttle": 100.0,
+            "current": 23.3,
+            "thrust_kg": 4.954
+          }
+        ],
+        "12S": [
+          {
+            "throttle": 25.0,
+            "current": 3.5,
+            "thrust_kg": 1.815
+          },
+          {
+            "throttle": 37.5,
+            "current": 7.4,
+            "thrust_kg": 3.36
+          },
+          {
+            "throttle": 50.0,
+            "current": 14.0,
+            "thrust_kg": 5.198
+          },
+          {
+            "throttle": 62.5,
+            "current": 22.5,
+            "thrust_kg": 7.508
+          },
+          {
+            "throttle": 75.0,
+            "current": 34.1,
+            "thrust_kg": 9.93
+          },
+          {
+            "throttle": 87.5,
+            "current": 49.5,
+            "thrust_kg": 12.653
+          },
+          {
+            "throttle": 100.0,
+            "current": 64.3,
+            "thrust_kg": 14.855
+          }
+        ]
+      }
+    },
+    {
+      "id": "27x5x8x9tripleednkde",
+      "name": "27.5\" x 8.9 TRIPLE-EDN (KDE)",
+      "data": {
+        "6S": [
+          {
+            "throttle": 25.0,
+            "current": 1.7,
+            "thrust_kg": 0.69
+          },
+          {
+            "throttle": 37.5,
+            "current": 3.6,
+            "thrust_kg": 1.261
+          },
+          {
+            "throttle": 50.0,
+            "current": 6.5,
+            "thrust_kg": 2.019
+          },
+          {
+            "throttle": 62.5,
+            "current": 10.7,
+            "thrust_kg": 2.869
+          },
+          {
+            "throttle": 75.0,
+            "current": 16.1,
+            "thrust_kg": 3.77
+          },
+          {
+            "throttle": 87.5,
+            "current": 23.0,
+            "thrust_kg": 4.809
+          },
+          {
+            "throttle": 100.0,
+            "current": 29.7,
+            "thrust_kg": 5.914
+          }
+        ],
+        "12S": [
+          {
+            "throttle": 25.0,
+            "current": 4.5,
+            "thrust_kg": 2.431
+          },
+          {
+            "throttle": 37.5,
+            "current": 9.8,
+            "thrust_kg": 4.504
+          },
+          {
+            "throttle": 50.0,
+            "current": 18.3,
+            "thrust_kg": 6.866
+          },
+          {
+            "throttle": 62.5,
+            "current": 29.3,
+            "thrust_kg": 9.159
+          },
+          {
+            "throttle": 75.0,
+            "current": 43.0,
+            "thrust_kg": 11.522
+          },
+          {
+            "throttle": 87.5,
+            "current": 61.9,
+            "thrust_kg": 14.489
+          },
+          {
+            "throttle": 100.0,
+            "current": 80.5,
+            "thrust_kg": 16.304
+          }
+        ]
+      }
+    },
+    {
+      "id": "30x5x9x7dualednkde",
+      "name": "30.5\" x 9.7 DUAL-EDN (KDE)",
+      "data": {
+        "6S": [
+          {
+            "throttle": 25.0,
+            "current": 1.9,
+            "thrust_kg": 0.827
+          },
+          {
+            "throttle": 37.5,
+            "current": 4.0,
+            "thrust_kg": 1.607
+          },
+          {
+            "throttle": 50.0,
+            "current": 7.0,
+            "thrust_kg": 2.414
+          },
+          {
+            "throttle": 62.5,
+            "current": 11.4,
+            "thrust_kg": 3.33
+          },
+          {
+            "throttle": 75.0,
+            "current": 17.3,
+            "thrust_kg": 4.355
+          },
+          {
+            "throttle": 87.5,
+            "current": 24.7,
+            "thrust_kg": 5.494
+          },
+          {
+            "throttle": 100.0,
+            "current": 32.5,
+            "thrust_kg": 6.407
+          }
+        ],
+        "12S": [
+          {
+            "throttle": 25.0,
+            "current": 4.6,
+            "thrust_kg": 2.836
+          },
+          {
+            "throttle": 37.5,
+            "current": 10.3,
+            "thrust_kg": 4.899
+          },
+          {
+            "throttle": 50.0,
+            "current": 19.2,
+            "thrust_kg": 7.435
+          },
+          {
+            "throttle": 62.5,
+            "current": 31.3,
+            "thrust_kg": 10.04
+          },
+          {
+            "throttle": 75.0,
+            "current": 45.7,
+            "thrust_kg": 12.723
+          },
+          {
+            "throttle": 87.5,
+            "current": 66.9,
+            "thrust_kg": 15.679
+          },
+          {
+            "throttle": 100.0,
+            "current": 88.1,
+            "thrust_kg": 17.824
+          }
+        ]
+      }
+    },
+    {
+      "id": "30x5x9x7tripleednkde",
+      "name": "30.5\" x 9.7 TRIPLE-EDN (KDE)",
+      "data": {
+        "6S": [
+          {
+            "throttle": 25.0,
+            "current": 2.2,
+            "thrust_kg": 0.935
+          },
+          {
+            "throttle": 37.5,
+            "current": 5.0,
+            "thrust_kg": 1.7
+          },
+          {
+            "throttle": 50.0,
+            "current": 9.4,
+            "thrust_kg": 2.802
+          },
+          {
+            "throttle": 62.5,
+            "current": 14.9,
+            "thrust_kg": 3.909
+          },
+          {
+            "throttle": 75.0,
+            "current": 22.5,
+            "thrust_kg": 5.199
+          },
+          {
+            "throttle": 87.5,
+            "current": 32.0,
+            "thrust_kg": 6.527
+          },
+          {
+            "throttle": 100.0,
+            "current": 41.1,
+            "thrust_kg": 7.607
+          }
+        ]
+      }
+    }
+  ]
+}
